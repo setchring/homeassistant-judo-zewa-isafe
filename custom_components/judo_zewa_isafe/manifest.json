@@ -1,0 +1,12 @@
+{
+  "domain": "judo_zewa_isafe",
+  "name": "JUDO ZEWA i-SAFE",
+  "codeowners": [],
+  "config_flow": true,
+  "documentation": "https://github.com/setchring/homeassistant-judo-zewa-isafe",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/setchring/homeassistant-judo-zewa-isafe/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

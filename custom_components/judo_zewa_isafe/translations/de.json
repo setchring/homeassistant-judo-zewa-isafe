@@ -1,0 +1,63 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "JUDO ZEWA i-SAFE einrichten",
+        "description": "Lokale REST-API des JUDO-Geräts einbinden.",
+        "data": {
+          "host": "IP-Adresse oder Hostname",
+          "port": "Port",
+          "username": "Benutzername",
+          "password": "Passwort",
+          "scan_interval": "Abfrageintervall in Sekunden"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung zum JUDO-Gerät fehlgeschlagen.",
+      "invalid_auth": "Benutzername oder Passwort ist falsch.",
+      "unsupported_device": "Das gefundene JUDO-Gerät wird von dieser Integration nicht unterstützt.",
+      "unknown": "Unerwarteter Fehler. Bitte Logs prüfen."
+    },
+    "abort": {
+      "already_configured": "Dieses JUDO-Gerät ist bereits konfiguriert."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "total_water_m3": { "name": "Gesamtwassermenge" },
+      "absence_flow_l_h": { "name": "Abwesenheitslimit Durchfluss" },
+      "absence_volume_l": { "name": "Abwesenheitslimit Wassermenge" },
+      "absence_duration_min": { "name": "Abwesenheitslimit Entnahmedauer" },
+      "sleep_duration_hours": { "name": "Sleepmodusdauer" },
+      "learning_remaining_m3": { "name": "Rest-Lernwassermenge" },
+      "install_date": { "name": "Inbetriebnahmedatum" },
+      "device_type_name": { "name": "Gerätetyp" },
+      "serial_number": { "name": "Gerätenummer" },
+      "sw_version": { "name": "Softwareversion" }
+    },
+    "binary_sensor": {
+      "learning_active": { "name": "Lernmodus aktiv" }
+    },
+    "button": {
+      "reset_message": { "name": "Meldung zurücksetzen" },
+      "close_leakage_protection": { "name": "Leckageschutz schließen" },
+      "open_leakage_protection": { "name": "Leckageschutz öffnen" },
+      "start_sleep_mode": { "name": "Sleepmodus starten" },
+      "stop_sleep_mode": { "name": "Sleepmodus beenden" },
+      "start_vacation_mode": { "name": "Urlaubsmodus starten" },
+      "stop_vacation_mode": { "name": "Urlaubsmodus beenden" },
+      "start_microleakage_test": { "name": "Mikroleckageprüfung starten" },
+      "start_learning_mode": { "name": "Lernmodus starten" }
+    },
+    "number": {
+      "absence_flow_l_h": { "name": "Abwesenheitslimit Durchfluss" },
+      "absence_volume_l": { "name": "Abwesenheitslimit Wassermenge" },
+      "absence_duration_min": { "name": "Abwesenheitslimit Entnahmedauer" },
+      "sleep_duration_hours": { "name": "Sleepmodusdauer" }
+    },
+    "select": {
+      "microleakage_mode": { "name": "Automatische Mikroleckageprüfung" }
+    }
+  }
+}
