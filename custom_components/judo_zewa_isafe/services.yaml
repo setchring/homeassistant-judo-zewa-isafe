@@ -1,0 +1,312 @@
+set_leakage_settings:
+  name: Leckageeinstellungen schreiben
+  description: Schreibt Urlaubsmodus-Typ, maximalen Volumenstrom, maximale Entnahmemenge und maximale Entnahmedauer mit API-Kommando 50.
+  fields:
+    config_entry_id:
+      name: Config Entry ID
+      description: Optional bei nur einem konfigurierten JUDO-Gerät.
+      selector:
+        text:
+    vacation_mode_type:
+      name: Urlaubsmodus-Typ
+      description: 0 = Aus, 1 = U1, 2 = U2, 3 = U3.
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 3
+          step: 1
+          mode: box
+    flow_l_h:
+      name: Maximaler Volumenstrom
+      description: Grenzwert in Liter pro Stunde.
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 65535
+          step: 1
+          unit_of_measurement: L/h
+          mode: box
+    volume_l:
+      name: Maximale Entnahmemenge
+      description: Grenzwert in Litern.
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 65535
+          step: 1
+          unit_of_measurement: L
+          mode: box
+    duration_min:
+      name: Maximale Entnahmedauer
+      description: Grenzwert in Minuten.
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 65535
+          step: 1
+          unit_of_measurement: min
+          mode: box
+
+set_vacation_mode_type:
+  name: Urlaubsmodus-Typ schreiben
+  description: Setzt den Urlaubsmodus-Typ mit API-Kommando 56.
+  fields:
+    config_entry_id:
+      name: Config Entry ID
+      description: Optional bei nur einem konfigurierten JUDO-Gerät.
+      selector:
+        text:
+    vacation_mode_type:
+      name: Urlaubsmodus-Typ
+      description: 0 = Aus, 1 = U1, 2 = U2, 3 = U3.
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 3
+          step: 1
+          mode: box
+
+get_device_datetime:
+  name: Gerätezeit lesen
+  description: Liest Datum und Uhrzeit des JUDO-Geräts mit API-Kommando 59. Dieser Dienst liefert eine Antwort zurück.
+  fields:
+    config_entry_id:
+      name: Config Entry ID
+      description: Optional bei nur einem konfigurierten JUDO-Gerät.
+      selector:
+        text:
+
+set_device_datetime:
+  name: Gerätezeit schreiben
+  description: Schreibt Datum und Uhrzeit des JUDO-Geräts mit API-Kommando 5A.
+  fields:
+    config_entry_id:
+      name: Config Entry ID
+      description: Optional bei nur einem konfigurierten JUDO-Gerät.
+      selector:
+        text:
+    datetime:
+      name: Datum und Uhrzeit
+      description: ISO-Datum/Uhrzeit, zum Beispiel 2026-06-15T14:30:00.
+      required: true
+      selector:
+        datetime:
+
+sync_device_datetime:
+  name: Gerätezeit synchronisieren
+  description: Schreibt die aktuelle Home-Assistant-Zeit ins JUDO-Gerät.
+  fields:
+    config_entry_id:
+      name: Config Entry ID
+      description: Optional bei nur einem konfigurierten JUDO-Gerät.
+      selector:
+        text:
+
+get_absence_period:
+  name: Abwesenheitszeit lesen
+  description: Liest einen Abwesenheitszeitraum 0 bis 6 mit API-Kommando 60. Dieser Dienst liefert eine Antwort zurück.
+  fields:
+    config_entry_id:
+      name: Config Entry ID
+      description: Optional bei nur einem konfigurierten JUDO-Gerät.
+      selector:
+        text:
+    index:
+      name: Zeitraum
+      description: Abwesenheitszeitraum 0 bis 6.
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 6
+          step: 1
+          mode: box
+
+set_absence_period:
+  name: Abwesenheitszeit schreiben
+  description: Schreibt einen Abwesenheitszeitraum 0 bis 6 mit API-Kommando 61. Wochentage sind 0 = Sonntag bis 6 = Samstag.
+  fields:
+    config_entry_id:
+      name: Config Entry ID
+      description: Optional bei nur einem konfigurierten JUDO-Gerät.
+      selector:
+        text:
+    index:
+      name: Zeitraum
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 6
+          step: 1
+          mode: box
+    start_day:
+      name: Starttag
+      description: 0 = Sonntag bis 6 = Samstag.
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 6
+          step: 1
+          mode: box
+    start_hour:
+      name: Startstunde
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 23
+          step: 1
+          mode: box
+    start_minute:
+      name: Startminute
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 59
+          step: 1
+          mode: box
+    stop_day:
+      name: Stopptag
+      description: 0 = Sonntag bis 6 = Samstag.
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 6
+          step: 1
+          mode: box
+    stop_hour:
+      name: Stoppstunde
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 23
+          step: 1
+          mode: box
+    stop_minute:
+      name: Stoppminute
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 59
+          step: 1
+          mode: box
+
+delete_absence_period:
+  name: Abwesenheitszeit löschen
+  description: Löscht einen Abwesenheitszeitraum 0 bis 6 mit API-Kommando 62.
+  fields:
+    config_entry_id:
+      name: Config Entry ID
+      description: Optional bei nur einem konfigurierten JUDO-Gerät.
+      selector:
+        text:
+    index:
+      name: Zeitraum
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 6
+          step: 1
+          mode: box
+
+get_day_statistics:
+  name: Tagesstatistik lesen
+  description: Liest die Wasserverbrauchs-Tagesstatistik mit API-Kommando FB. Dieser Dienst liefert eine Antwort zurück.
+  fields:
+    config_entry_id:
+      name: Config Entry ID
+      description: Optional bei nur einem konfigurierten JUDO-Gerät.
+      selector:
+        text:
+    date:
+      name: Datum
+      required: true
+      selector:
+        date:
+
+get_week_statistics:
+  name: Wochenstatistik lesen
+  description: Liest die Wasserverbrauchs-Wochenstatistik mit API-Kommando FC. Dieser Dienst liefert eine Antwort zurück.
+  fields:
+    config_entry_id:
+      name: Config Entry ID
+      description: Optional bei nur einem konfigurierten JUDO-Gerät.
+      selector:
+        text:
+    year:
+      name: Jahr
+      required: true
+      selector:
+        number:
+          min: 2000
+          max: 2099
+          step: 1
+          mode: box
+    calendar_week:
+      name: Kalenderwoche
+      required: true
+      selector:
+        number:
+          min: 1
+          max: 53
+          step: 1
+          mode: box
+
+get_month_statistics:
+  name: Monatsstatistik lesen
+  description: Liest die Wasserverbrauchs-Monatsstatistik mit API-Kommando FD. Dieser Dienst liefert eine Antwort zurück.
+  fields:
+    config_entry_id:
+      name: Config Entry ID
+      description: Optional bei nur einem konfigurierten JUDO-Gerät.
+      selector:
+        text:
+    year:
+      name: Jahr
+      required: true
+      selector:
+        number:
+          min: 2000
+          max: 2099
+          step: 1
+          mode: box
+    month:
+      name: Monat
+      required: true
+      selector:
+        number:
+          min: 1
+          max: 12
+          step: 1
+          mode: box
+
+get_year_statistics:
+  name: Jahresstatistik lesen
+  description: Liest die Wasserverbrauchs-Jahresstatistik mit API-Kommando FE. Dieser Dienst liefert eine Antwort zurück.
+  fields:
+    config_entry_id:
+      name: Config Entry ID
+      description: Optional bei nur einem konfigurierten JUDO-Gerät.
+      selector:
+        text:
+    year:
+      name: Jahr
+      required: true
+      selector:
+        number:
+          min: 2000
+          max: 2099
+          step: 1
+          mode: box

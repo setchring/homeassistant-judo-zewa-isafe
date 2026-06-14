@@ -52,6 +52,8 @@ class JudoZewaDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                 "learning_active": learning_active,
                 "learning_remaining_m3": learning_remaining_m3,
                 "microleakage_mode": await self.api.async_read_microleakage_mode(),
+                "device_datetime": await self.api.async_read_device_datetime(),
+                "absence_periods": await self.api.async_read_absence_periods(),
             }
         except CannotConnect as err:
             raise UpdateFailed(str(err)) from err

@@ -10,6 +10,9 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from .api import JudoZewaApi
 from .const import DEFAULT_PASSWORD, DEFAULT_PORT, DEFAULT_SCAN_INTERVAL, DEFAULT_USERNAME, DOMAIN, PLATFORMS
 from .coordinator import JudoZewaDataUpdateCoordinator
+from .services import async_setup_services, async_unload_services
+
+SERVICES_REGISTERED = "services_registered"
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
@@ -29,7 +32,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     )
     await coordinator.async_config_entry_first_refresh()
 
-    hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator
+    domain_data = hass.data.setdefault(DOMAIN, {})
+    domain_data[entry.entry_id] = coordinator
+    if not domain_data.get(SERVICES_REGISTERED):
+        async_setup_services(hass)
+        domain_data[SERVICES_REGISTERED] = True
+
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     return True
 
@@ -38,5 +46,10 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
     if unload_ok:
-        hass.data[DOMAIN].pop(entry.entry_id)
+        domain_data = hass.data[DOMAIN]
+        domain_data.pop(entry.entry_id)
+        configured_entries = [key for key in domain_data if key != SERVICES_REGISTERED]
+        if not configured_entries:
+            async_unload_services(hass)
+            hass.data.pop(DOMAIN)
     return unload_ok

@@ -25,39 +25,116 @@
   },
   "entity": {
     "sensor": {
-      "total_water_m3": { "name": "Gesamtwassermenge" },
-      "absence_flow_l_h": { "name": "Abwesenheitslimit Durchfluss" },
-      "absence_volume_l": { "name": "Abwesenheitslimit Wassermenge" },
-      "absence_duration_min": { "name": "Abwesenheitslimit Entnahmedauer" },
-      "sleep_duration_hours": { "name": "Sleepmodusdauer" },
-      "learning_remaining_m3": { "name": "Rest-Lernwassermenge" },
-      "install_date": { "name": "Inbetriebnahmedatum" },
-      "device_type_name": { "name": "Gerätetyp" },
-      "serial_number": { "name": "Gerätenummer" },
-      "sw_version": { "name": "Softwareversion" }
+      "total_water_m3": {
+        "name": "Gesamtwassermenge"
+      },
+      "absence_flow_l_h": {
+        "name": "Abwesenheitslimit Durchfluss"
+      },
+      "absence_volume_l": {
+        "name": "Abwesenheitslimit Wassermenge"
+      },
+      "absence_duration_min": {
+        "name": "Abwesenheitslimit Entnahmedauer"
+      },
+      "sleep_duration_hours": {
+        "name": "Sleepmodusdauer"
+      },
+      "learning_remaining_m3": {
+        "name": "Rest-Lernwassermenge"
+      },
+      "install_date": {
+        "name": "Inbetriebnahmedatum"
+      },
+      "device_type_name": {
+        "name": "Gerätetyp"
+      },
+      "serial_number": {
+        "name": "Gerätenummer"
+      },
+      "sw_version": {
+        "name": "Softwareversion"
+      },
+      "device_datetime": {
+        "name": "Gerätezeit"
+      },
+      "absence_period_0": {
+        "name": "Abwesenheitszeit 0"
+      },
+      "absence_period_1": {
+        "name": "Abwesenheitszeit 1"
+      },
+      "absence_period_2": {
+        "name": "Abwesenheitszeit 2"
+      },
+      "absence_period_3": {
+        "name": "Abwesenheitszeit 3"
+      },
+      "absence_period_4": {
+        "name": "Abwesenheitszeit 4"
+      },
+      "absence_period_5": {
+        "name": "Abwesenheitszeit 5"
+      },
+      "absence_period_6": {
+        "name": "Abwesenheitszeit 6"
+      }
     },
     "binary_sensor": {
-      "learning_active": { "name": "Lernmodus aktiv" }
+      "learning_active": {
+        "name": "Lernmodus aktiv"
+      }
     },
     "button": {
-      "reset_message": { "name": "Meldung zurücksetzen" },
-      "close_leakage_protection": { "name": "Leckageschutz schließen" },
-      "open_leakage_protection": { "name": "Leckageschutz öffnen" },
-      "start_sleep_mode": { "name": "Sleepmodus starten" },
-      "stop_sleep_mode": { "name": "Sleepmodus beenden" },
-      "start_vacation_mode": { "name": "Urlaubsmodus starten" },
-      "stop_vacation_mode": { "name": "Urlaubsmodus beenden" },
-      "start_microleakage_test": { "name": "Mikroleckageprüfung starten" },
-      "start_learning_mode": { "name": "Lernmodus starten" }
+      "reset_message": {
+        "name": "Meldung zurücksetzen"
+      },
+      "close_leakage_protection": {
+        "name": "Leckageschutz schließen"
+      },
+      "open_leakage_protection": {
+        "name": "Leckageschutz öffnen"
+      },
+      "start_sleep_mode": {
+        "name": "Sleepmodus starten"
+      },
+      "stop_sleep_mode": {
+        "name": "Sleepmodus beenden"
+      },
+      "start_vacation_mode": {
+        "name": "Urlaubsmodus starten"
+      },
+      "stop_vacation_mode": {
+        "name": "Urlaubsmodus beenden"
+      },
+      "start_microleakage_test": {
+        "name": "Mikroleckageprüfung starten"
+      },
+      "start_learning_mode": {
+        "name": "Lernmodus starten"
+      }
     },
     "number": {
-      "absence_flow_l_h": { "name": "Abwesenheitslimit Durchfluss" },
-      "absence_volume_l": { "name": "Abwesenheitslimit Wassermenge" },
-      "absence_duration_min": { "name": "Abwesenheitslimit Entnahmedauer" },
-      "sleep_duration_hours": { "name": "Sleepmodusdauer" }
+      "absence_flow_l_h": {
+        "name": "Abwesenheitslimit Durchfluss"
+      },
+      "absence_volume_l": {
+        "name": "Abwesenheitslimit Wassermenge"
+      },
+      "absence_duration_min": {
+        "name": "Abwesenheitslimit Entnahmedauer"
+      },
+      "sleep_duration_hours": {
+        "name": "Sleepmodusdauer"
+      }
     },
     "select": {
-      "microleakage_mode": { "name": "Automatische Mikroleckageprüfung" }
+      "microleakage_mode": {
+        "name": "Automatische Mikroleckageprüfung"
+      },
+      "vacation_mode_type": {
+        "name": "Urlaubsmodus-Typ"
+      }
     }
   }
 }

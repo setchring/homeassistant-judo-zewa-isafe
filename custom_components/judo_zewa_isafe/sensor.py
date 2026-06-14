@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import datetime
 from typing import Any, Callable
 
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity, SensorEntityDescription, SensorStateClass
@@ -10,6 +11,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
+from .api import AbsencePeriod
 from .const import DOMAIN
 from .coordinator import JudoZewaDataUpdateCoordinator
 from .entity import JudoZewaEntity
@@ -67,6 +69,11 @@ SENSOR_DESCRIPTIONS: tuple[JudoZewaSensorDescription, ...] = (
         value_fn=lambda data: data.get("learning_remaining_m3"),
     ),
     JudoZewaSensorDescription(
+        key="device_datetime",
+        translation_key="device_datetime",
+        value_fn=lambda data: _format_device_datetime(data.get("device_datetime")),
+    ),
+    JudoZewaSensorDescription(
         key="install_date",
         translation_key="install_date",
         device_class=SensorDeviceClass.TIMESTAMP,
@@ -89,11 +96,22 @@ SENSOR_DESCRIPTIONS: tuple[JudoZewaSensorDescription, ...] = (
     ),
 )
 
+ABSENCE_PERIOD_DESCRIPTIONS: tuple[JudoZewaSensorDescription, ...] = tuple(
+    JudoZewaSensorDescription(
+        key=f"absence_period_{index}",
+        translation_key=f"absence_period_{index}",
+        value_fn=lambda data, index=index: _absence_period_state(data, index),
+    )
+    for index in range(7)
+)
+
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback) -> None:
     """Set up JUDO ZEWA sensors."""
     coordinator: JudoZewaDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
-    async_add_entities(JudoZewaSensor(coordinator, description) for description in SENSOR_DESCRIPTIONS)
+    async_add_entities(
+        JudoZewaSensor(coordinator, description) for description in (*SENSOR_DESCRIPTIONS, *ABSENCE_PERIOD_DESCRIPTIONS)
+    )
 
 
 class JudoZewaSensor(JudoZewaEntity, SensorEntity):
@@ -110,3 +128,32 @@ class JudoZewaSensor(JudoZewaEntity, SensorEntity):
     def native_value(self) -> Any:
         """Return the sensor value."""
         return self.entity_description.value_fn(self.coordinator.data or {})
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any] | None:
+        """Return attributes for absence-period sensors."""
+        if not self.entity_description.key.startswith("absence_period_"):
+            return None
+        try:
+            index = int(self.entity_description.key.rsplit("_", 1)[1])
+        except ValueError:
+            return None
+        period = (self.coordinator.data or {}).get("absence_periods", {}).get(index)
+        if isinstance(period, AbsencePeriod):
+            return period.as_dict()
+        return None
+
+
+def _format_device_datetime(value: Any) -> str | None:
+    """Format a device-local datetime for display."""
+    if isinstance(value, datetime):
+        return value.strftime("%Y-%m-%d %H:%M:%S")
+    return None
+
+
+def _absence_period_state(data: dict[str, Any], index: int) -> str | None:
+    """Return a sensor state for one absence period."""
+    period = data.get("absence_periods", {}).get(index)
+    if isinstance(period, AbsencePeriod):
+        return period.state
+    return None

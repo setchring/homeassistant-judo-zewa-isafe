@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import timedelta
 
-from homeassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_SCAN_INTERVAL, CONF_USERNAME, Platform
+from homeassistant.const import CONF_HOST, CONF_PASSWORD, CONF_PORT, CONF_SCAN_INTERVAL, CONF_USERNAME
 
 DOMAIN = "judo_zewa_isafe"
 NAME = "JUDO ZEWA i-SAFE"
@@ -23,4 +23,4 @@ SUPPORTED_DEVICE_TYPE_NAMES = {
 
 CONF_KEYS = {CONF_HOST, CONF_PORT, CONF_USERNAME, CONF_PASSWORD, CONF_SCAN_INTERVAL}
 
-PLATFORMS = [Platform.SENSOR, Platform.BINARY_SENSOR, Platform.BUTTON, Platform.NUMBER, Platform.SELECT]
+PLATFORMS = ["sensor", "binary_sensor", "button", "number", "select"]
