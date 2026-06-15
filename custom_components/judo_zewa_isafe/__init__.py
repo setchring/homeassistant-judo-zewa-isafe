@@ -10,7 +10,6 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from .api import JudoZewaApi
 from .const import DEFAULT_PASSWORD, DEFAULT_PORT, DEFAULT_SCAN_INTERVAL, DEFAULT_USERNAME, DOMAIN, PLATFORMS
 from .coordinator import JudoZewaDataUpdateCoordinator
-from .services import async_setup_services, async_unload_services
 
 SERVICES_REGISTERED = "services_registered"
 
@@ -35,6 +34,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     domain_data = hass.data.setdefault(DOMAIN, {})
     domain_data[entry.entry_id] = coordinator
     if not domain_data.get(SERVICES_REGISTERED):
+        # Import lazily so config_flow loading is not blocked by optional
+        # service-response APIs that differ between Home Assistant versions.
+        from .services import async_setup_services
+
         async_setup_services(hass)
         domain_data[SERVICES_REGISTERED] = True
 
@@ -50,6 +53,8 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         domain_data.pop(entry.entry_id)
         configured_entries = [key for key in domain_data if key != SERVICES_REGISTERED]
         if not configured_entries:
+            from .services import async_unload_services
+
             async_unload_services(hass)
             hass.data.pop(DOMAIN)
     return unload_ok

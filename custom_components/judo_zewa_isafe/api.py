@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from dataclasses import dataclass
 from datetime import date, datetime, timezone
 from typing import Any
 
 import aiohttp
-import async_timeout
 
 from .const import DEFAULT_TIMEOUT, SUPPORTED_DEVICE_TYPE_NAMES, SUPPORTED_DEVICE_TYPES
 
@@ -137,7 +137,7 @@ class JudoZewaApi:
         _LOGGER.debug("Sending JUDO command %s", command.upper())
 
         try:
-            async with async_timeout.timeout(self._timeout):
+            async with asyncio.timeout(self._timeout):
                 response = await self._session.get(url, auth=self._auth)
                 async with response:
                     if response.status in (401, 403):

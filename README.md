@@ -159,3 +159,15 @@ The config flow asks for:
 ## Manual installation
 
 Copy `custom_components/judo_zewa_isafe` to `<config>/custom_components/judo_zewa_isafe`, restart Home Assistant, then add the integration through the UI.
+
+
+## Version 0.2.1
+
+- Behebt das Laden des Config Flows, indem optionale Service-Response-Imports aus dem Paketimport entfernt und die externe `async_timeout`-Abhängigkeit durch `asyncio.timeout` ersetzt wurde.
+
+
+## Branding / Logo
+
+Diese Integration enthält lokale Brand-Assets im Ordner `custom_components/judo_zewa_isafe/brand/`.
+Das Brand-Set ist produktbezogen gestaltet: JUDO-Herstellerlogo plus `ZEWA i-SAFE FILT`-Kennzeichnung, jeweils als Light-/Dark-Variante und als normale/@2x-Auflösung.
+Ab Home Assistant 2026.3 werden diese lokalen Brand-Bilder direkt für die Integrationsdarstellung verwendet.

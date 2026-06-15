@@ -7,10 +7,14 @@ from typing import Any
 
 import voluptuous as vol
 
-from homeassistant.const import CONF_CONFIG_ENTRY_ID
-from homeassistant.core import HomeAssistant, ServiceCall, SupportsResponse
+from homeassistant.core import HomeAssistant, ServiceCall
 from homeassistant.exceptions import HomeAssistantError
 import homeassistant.util.dt as dt_util
+
+try:
+    from homeassistant.core import SupportsResponse
+except ImportError:  # Home Assistant versions before service responses
+    SupportsResponse = None  # type: ignore[assignment]
 
 from .const import DOMAIN
 from .coordinator import JudoZewaDataUpdateCoordinator
@@ -45,7 +49,16 @@ ATTR_YEAR = "year"
 ATTR_MONTH = "month"
 ATTR_CALENDAR_WEEK = "calendar_week"
 
+CONF_CONFIG_ENTRY_ID = "config_entry_id"
 CONFIG_ENTRY_FIELD = vol.Optional(CONF_CONFIG_ENTRY_ID)
+
+
+def _response_kwargs() -> dict[str, Any]:
+    """Return async_register kwargs for response services when supported."""
+    if SupportsResponse is None:
+        return {}
+    return {"supports_response": SupportsResponse.ONLY}
+
 
 
 def async_setup_services(hass: HomeAssistant) -> None:
@@ -155,7 +168,7 @@ def async_setup_services(hass: HomeAssistant) -> None:
         SERVICE_GET_DEVICE_DATETIME,
         handle_get_device_datetime,
         schema=vol.Schema({CONFIG_ENTRY_FIELD: str}),
-        supports_response=SupportsResponse.ONLY,
+        **_response_kwargs(),
     )
     hass.services.async_register(
         DOMAIN,
@@ -176,7 +189,7 @@ def async_setup_services(hass: HomeAssistant) -> None:
         schema=vol.Schema(
             {CONFIG_ENTRY_FIELD: str, vol.Required(ATTR_INDEX): vol.All(vol.Coerce(int), vol.Range(min=0, max=6))}
         ),
-        supports_response=SupportsResponse.ONLY,
+        **_response_kwargs(),
     )
     hass.services.async_register(
         DOMAIN,
@@ -208,7 +221,7 @@ def async_setup_services(hass: HomeAssistant) -> None:
         SERVICE_GET_DAY_STATISTICS,
         handle_get_day_statistics,
         schema=vol.Schema({CONFIG_ENTRY_FIELD: str, vol.Required(ATTR_DATE): str}),
-        supports_response=SupportsResponse.ONLY,
+        **_response_kwargs(),
     )
     hass.services.async_register(
         DOMAIN,
@@ -221,7 +234,7 @@ def async_setup_services(hass: HomeAssistant) -> None:
                 vol.Required(ATTR_CALENDAR_WEEK): vol.All(vol.Coerce(int), vol.Range(min=1, max=53)),
             }
         ),
-        supports_response=SupportsResponse.ONLY,
+        **_response_kwargs(),
     )
     hass.services.async_register(
         DOMAIN,
@@ -234,7 +247,7 @@ def async_setup_services(hass: HomeAssistant) -> None:
                 vol.Required(ATTR_MONTH): vol.All(vol.Coerce(int), vol.Range(min=1, max=12)),
             }
         ),
-        supports_response=SupportsResponse.ONLY,
+        **_response_kwargs(),
     )
     hass.services.async_register(
         DOMAIN,
@@ -246,7 +259,7 @@ def async_setup_services(hass: HomeAssistant) -> None:
                 vol.Required(ATTR_YEAR): vol.All(vol.Coerce(int), vol.Range(min=2000, max=2099)),
             }
         ),
-        supports_response=SupportsResponse.ONLY,
+        **_response_kwargs(),
     )
 
 
