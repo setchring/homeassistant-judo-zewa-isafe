@@ -191,3 +191,9 @@ Ab Home Assistant 2026.3 werden diese lokalen Brand-Bilder direkt für die Integ
 - Der Cloud-Zugriff ist strikt lesend: Login und `get device data`; keine `write data`-Kommandos.
 - Der Sensor nutzt den bei ZEWA 2021 / `dt=0x44` beobachteten Statusblock `150` aus der JU-Control-Cloud. Der Ventilstatus wird aus Statusbyte 23 abgeleitet: Bit `0x80` gesetzt = Leckageschutz geschlossen, sonst Ventil offen.
 - Bestehende lokale Steuerung und lokale Sensoren bleiben unverändert.
+
+
+## Version 0.3.1
+
+- Paket neu gebaut und verifiziert, dass `custom_components/judo_zewa_isafe/cloud_api.py` enthalten ist.
+- Wenn Home Assistant `No module named ... cloud_api` meldet, wurde die vorherige Installation nicht vollständig ersetzt. In diesem Fall den Ordner `/config/custom_components/judo_zewa_isafe` vollständig löschen und anschließend neu aus diesem ZIP installieren.
