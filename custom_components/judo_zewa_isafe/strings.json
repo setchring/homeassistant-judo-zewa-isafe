@@ -3,13 +3,17 @@
     "step": {
       "user": {
         "title": "JUDO ZEWA i-SAFE einrichten",
-        "description": "Lokale REST-API des JUDO-Geräts einbinden.",
+        "description": "Lokale REST-API des JUDO-Geräts einbinden. Optional kann ein reiner JU-Control-Cloud-Sensor für den Ventilstatus aktiviert werden.",
         "data": {
           "host": "IP-Adresse oder Hostname",
           "port": "Port",
           "username": "Benutzername",
           "password": "Passwort",
-          "scan_interval": "Abfrageintervall in Sekunden"
+          "scan_interval": "Abfrageintervall in Sekunden",
+          "cloud_enabled": "JU-Control-Cloudsensor für Ventilstatus aktivieren",
+          "cloud_username": "JU-Control Benutzername/E-Mail",
+          "cloud_password": "JU-Control Passwort",
+          "cloud_device": "JU-Control Geräte-ID, Gerätenummer oder EWUID (optional)"
         }
       }
     },
@@ -83,6 +87,9 @@
     "binary_sensor": {
       "learning_active": {
         "name": "Lernmodus aktiv"
+      },
+      "valve_open": {
+        "name": "Ventil offen"
       }
     },
     "button": {
@@ -135,6 +142,26 @@
       "vacation_mode_type": {
         "name": "Urlaubsmodus-Typ"
       }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "JU-Control-Cloudsensor",
+        "description": "Optionaler, reiner Lesesensor für den Öffnungszustand des Ventils über JU-Control.",
+        "data": {
+          "cloud_enabled": "JU-Control-Cloudsensor für Ventilstatus aktivieren",
+          "cloud_username": "JU-Control Benutzername/E-Mail",
+          "cloud_password": "JU-Control Passwort",
+          "cloud_device": "JU-Control Geräte-ID, Gerätenummer oder EWUID (optional)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung zum JUDO-Gerät fehlgeschlagen.",
+      "invalid_auth": "Benutzername oder Passwort ist falsch.",
+      "unsupported_device": "Das gefundene JUDO-Gerät wird von dieser Integration nicht unterstützt.",
+      "unknown": "Unerwarteter Fehler. Bitte Logs prüfen."
     }
   }
 }

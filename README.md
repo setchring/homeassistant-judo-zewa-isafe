@@ -171,3 +171,23 @@ Copy `custom_components/judo_zewa_isafe` to `<config>/custom_components/judo_zew
 Diese Integration enthält lokale Brand-Assets im Ordner `custom_components/judo_zewa_isafe/brand/`.
 Das Brand-Set ist produktbezogen gestaltet: JUDO-Herstellerlogo plus `ZEWA i-SAFE FILT`-Kennzeichnung, jeweils als Light-/Dark-Variante und als normale/@2x-Auflösung.
 Ab Home Assistant 2026.3 werden diese lokalen Brand-Bilder direkt für die Integrationsdarstellung verwendet.
+
+
+## Version 0.2.4
+
+- Read-only-Test gegen ein echtes ZEWA i-SAFE FILT bestätigt: Gerätetyp `0x44`, REST-Basis `/api/rest/<command>` und die im Coordinator genutzten Lese-Kommandos liefern erfolgreich Daten.
+- Sleepmodusdauer-Maximum in Home Assistant von 10 auf 24 Stunden erweitert, da das getestete Gerät `6600 = 12` zurückliefert, also 18 Stunden.
+
+
+## Änderung v0.2.5
+
+- Sleepmodusdauer wieder auf den offiziell einstellbaren Bereich 1–10 h begrenzt.
+- Der gelesene Rohwert aus `6600` wird weiterhin unverändert als Sensor angezeigt, falls das Gerät intern einen anderen Wert liefert.
+
+
+## Version 0.3.0
+
+- Optionaler **JU-Control-Cloudsensor** ergänzt: `binary_sensor.<gerät>_ventil_offen`.
+- Der Cloud-Zugriff ist strikt lesend: Login und `get device data`; keine `write data`-Kommandos.
+- Der Sensor nutzt den bei ZEWA 2021 / `dt=0x44` beobachteten Statusblock `150` aus der JU-Control-Cloud. Der Ventilstatus wird aus Statusbyte 23 abgeleitet: Bit `0x80` gesetzt = Leckageschutz geschlossen, sonst Ventil offen.
+- Bestehende lokale Steuerung und lokale Sensoren bleiben unverändert.
