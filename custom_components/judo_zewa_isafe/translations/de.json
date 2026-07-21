@@ -90,7 +90,10 @@
       },
       "valve_open": {
         "name": "Ventil offen"
-      }
+      },
+	  "microleakage_ok": {
+	    "name": "Meldung aktiv - Keine Mikroleckage erkannt" 
+	  }
     },
     "button": {
       "reset_message": {

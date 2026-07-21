@@ -35,6 +35,8 @@ class JudoCloudValveState:
     status_byte_23: int | None
     last_cloud_update: str | None
     updated_at: datetime
+    microleakage_ok: bool | None
+    status_byte_20: int | None
 
 
 class JudoJuControlCloudApi:
@@ -132,6 +134,40 @@ class JudoJuControlCloudApi:
 
         block_150 = _extract_hex_data(nested_data.get("150"))
         status_byte = _status_byte(block_150, 23)
+
+        # Get notification OK flag
+        snippet = block_150[44:52]
+
+        # Convert hex string to integer
+        val = int(snippet, 16)
+
+        # Convert integer to 4 bytes in Big-Endian, then swap to Little-Endian
+        # 'big' -> 'little' effectively reverses the byte order
+        swapped_bytes = val.to_bytes(4, byteorder='big')[::-1]
+
+        # Convert back to hex string
+        swapped = swapped_bytes.hex().upper()
+
+        print(swapped)
+
+        # Convert hex string to decimal integer
+        decimal_val = int(swapped, 16)
+        print(decimal_val)
+
+        binary_val = bin(decimal_val)
+
+        print(binary_val)
+        # Output: 0b1000000000100000000000000
+
+        # Optional: Remove '0b' prefix and pad to 32 bits (4 bytes)
+        binary_padded = binary_val[2:].zfill(32)
+
+        status_byte_20 = int(binary_padded[21])
+
+        microleakage_ok = None
+
+        if status_byte_20 is not None:
+            microleakage_ok = bool(status_byte_20)
         valve_open = _valve_open_from_status_byte(status_byte)
 
         return JudoCloudValveState(
@@ -144,13 +180,15 @@ class JudoJuControlCloudApi:
             status_byte_23=status_byte,
             last_cloud_update=_as_str(nested_data.get("lu")),
             updated_at=datetime.now(timezone.utc),
+            microleakage_ok=microleakage_ok,
+            status_byte_20=status_byte_20,
         )
 
     async def _async_request(self, params: dict[str, Any], *, include_token: bool) -> dict[str, Any]:
         """Call the JU-Control interface without logging secrets."""
         headers = {
             "Accept": "application/json",
-            "User-Agent": "HomeAssistant-JUDO-ZEWA-iSAFE/0.3",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
         }
 
         try:

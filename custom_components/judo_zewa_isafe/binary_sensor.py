@@ -34,6 +34,11 @@ BINARY_SENSOR_DESCRIPTIONS: tuple[JudoZewaBinarySensorDescription, ...] = (
         device_class=BinarySensorDeviceClass.OPENING,
         value_fn=lambda data: data.get("valve_open"),
     ),
+    JudoZewaBinarySensorDescription(
+    key="microleakage_ok",
+    translation_key="microleakage_ok",
+    value_fn=lambda data: data.get("microleakage_ok"),
+    ),
 )
 
 
@@ -71,9 +76,10 @@ class JudoZewaBinarySensor(JudoZewaEntity, BinarySensorEntity):
     @property
     def extra_state_attributes(self) -> dict[str, Any] | None:
         """Return diagnostic attributes for the cloud valve sensor."""
-        if self.entity_description.key != "valve_open":
+        if self.entity_description.key == "microleakage_ok" or self.entity_description.key == "valve_open":
+            data = self.coordinator.data or {}
+        else:
             return None
-        data = self.coordinator.data or {}
         return {
             "source": "JU-Control Cloud",
             "device_status": data.get("valve_cloud_device_status"),
@@ -82,4 +88,5 @@ class JudoZewaBinarySensor(JudoZewaEntity, BinarySensorEntity):
             "status_byte_23": data.get("valve_cloud_status_byte_23"),
             "status_block_150": data.get("valve_cloud_status_block_150"),
             "cloud_error": data.get("valve_cloud_error"),
+            "status_byte_20": data.get("microleakage_status_byte_20"),
         }

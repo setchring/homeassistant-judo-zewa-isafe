@@ -85,6 +85,8 @@ class JudoZewaDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                             "valve_cloud_status_block_150": valve_state.status_block_150,
                             "valve_cloud_last_update": valve_state.last_cloud_update,
                             "valve_cloud_updated_at": valve_state.updated_at,
+                            "microleakage_ok": valve_state.microleakage_ok,
+                            "microleakage_status_byte_20": valve_state.status_byte_20,
                         }
                     )
 
